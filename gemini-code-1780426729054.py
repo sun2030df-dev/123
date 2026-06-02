@@ -7,10 +7,15 @@ st.set_page_config(
     layout="centered"
 )
 
-# Custom injection for styling text elements, headings, and input box shapes
+# Custom injection for styling text elements, headings, background, and input box shapes
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Impact&family=Arial&display=swap');
+    
+    /* Force main app background to white */
+    .stApp {
+        background-color: #FFFFFF !important;
+    }
     
     /* Title Stylings */
     .header-banner {
@@ -60,6 +65,13 @@ st.markdown("""
         font-family: 'Arial', sans-serif;
         font-size: 24px;
         color: #FF3333;
+    }
+    
+    /* Ensure text inputs and textareas stand out against the white background */
+    .stTextInput>div>div>input, .stTextArea>div>div>textarea {
+        background-color: #F5F5F5 !important;
+        color: #000000 !important;
+        border: 1px solid #CCCCCC !important;
     }
     </style>
 """, unsafe_allow_html=True)
