@@ -74,14 +74,6 @@ st.markdown("""
         border: 1px solid #CCCCCC !important;
     }
     </style>
-    
-    <script>
-    // Force autocomplete off on all input elements once the DOM finishes rendering
-    const inputs = parent.document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.setAttribute('autocomplete', 'new-password');
-    });
-    </script>
 """, unsafe_allow_html=True)
 
 # --- Initialize Persistent Session States ---
@@ -93,6 +85,16 @@ if "z1_is_error" not in st.session_state:
     st.session_state.z1_is_error = False
 if "delta_is_error" not in st.session_state:
     st.session_state.delta_is_error = False
+
+# Direct input-binding keys setup
+if "ref_in" not in st.session_state:
+    st.session_state.ref_in = ""
+if "arr_in" not in st.session_state:
+    st.session_state.arr_in = ""
+if "av_in" not in st.session_state:
+    st.session_state.av_in = ""
+if "proj_in" not in st.session_state:
+    st.session_state.proj_in = ""
 
 # --- Top Header ---
 st.markdown('<div class="header-banner"><span class="header-text">POSTE DE BUSE </span></div>', unsafe_allow_html=True)
@@ -152,17 +154,17 @@ btn_col1, btn_col2 = st.columns([1, 3])
 
 with btn_col1:
     if st.button("AC", use_container_width=True, type="secondary"):
-        # Reset output values back to baseline
+        # Reset output values
         st.session_state.z1_display = "—"
         st.session_state.delta_display = "—"
         st.session_state.z1_is_error = False
         st.session_state.delta_is_error = False
         
-        # Clear the widget values entirely out of memory backend
-        if "ref_in" in st.session_state: st.session_state.ref_in = ""
-        if "arr_in" in st.session_state: st.session_state.arr_in = ""
-        if "av_in" in st.session_state: st.session_state.av_in = ""
-        if "proj_in" in st.session_state: st.session_state.proj_in = ""
+        # Reset the mapped widgets keys directly
+        st.session_state.ref_in = ""
+        st.session_state.arr_in = ""
+        st.session_state.av_in = ""
+        st.session_state.proj_in = ""
         
         st.rerun()
 
