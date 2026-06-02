@@ -82,7 +82,7 @@ st.markdown("""
         background-color: #F5F5F5 !important;
         color: #000000 !important;
         border: 1px solid #CCCCCC !important;
-        font-size: 18px !important; /* Prevents iOS/Android auto-zoom on focus */
+        font-size: 18px !important; /* Prevents auto-zoom on mobile focus */
         height: 45px !important; /* Larger hit-box for fingers */
     }
 
@@ -121,18 +121,21 @@ if "av_in" not in st.session_state:
 if "proj_in" not in st.session_state:
     st.session_state.proj_in = ""
 
-# --- Callback Function to Cleanly Clear Everything ---
+# --- Callback Function to Cleanly Clear Everything EXCEPT Logs ---
 def clear_all_callback():
+    # Reset output strings back to baseline values
     st.session_state.z1_display = "—"
     st.session_state.delta_display = "—"
     st.session_state.z1_is_error = False
     st.session_state.delta_is_error = False
     
+    # Safe-clear inputs by editing session keys directly 
     st.session_state.ref_in = ""
     st.session_state.arr_in = ""
     st.session_state.av_in = ""
     st.session_state.proj_in = ""
-    st.session_state.notes_log = ""
+    
+    # Notice: st.session_state.notes_log is left out intentionally so it never gets deleted!
 
 # --- Top Header Banner ---
 st.markdown('<div class="header-banner"><span class="header-text">POSTE DE BUSE </span></div>', unsafe_allow_html=True)
