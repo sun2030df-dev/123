@@ -88,15 +88,22 @@ if "z1_is_error" not in st.session_state:
 if "delta_is_error" not in st.session_state:
     st.session_state.delta_is_error = False
 
-# Ensure state keys exist before loading widgets to prevent input state sync bugs
-if "ref_in" not in st.session_state:
+# --- Callback Function to Safe-Clear All States ---
+def clear_all_callback():
+    # Reset output metrics
+    st.session_state.z1_display = "—"
+    st.session_state.delta_display = "—"
+    st.session_state.z1_is_error = False
+    st.session_state.delta_is_error = False
+    
+    # Safe-clear inputs by editing session keys directly inside a callback function execution context
     st.session_state.ref_in = ""
-if "arr_in" not in st.session_state:
     st.session_state.arr_in = ""
-if "av_in" not in st.session_state:
     st.session_state.av_in = ""
-if "proj_in" not in st.session_state:
     st.session_state.proj_in = ""
+    
+    # Clear logs window content
+    st.session_state.notes_log = ""
 
 # --- Top Header ---
 st.markdown('<div class="header-banner"><span class="header-text">POSTE DE BUSE </span></div>', unsafe_allow_html=True)
@@ -160,23 +167,8 @@ st.session_state.notes_log = notepad_content
 btn_col1, btn_col2 = st.columns([1, 3])
 
 with btn_col1:
-    if st.button("AC", use_container_width=True, type="secondary"):
-        # Reset output metrics
-        st.session_state.z1_display = "—"
-        st.session_state.delta_display = "—"
-        st.session_state.z1_is_error = False
-        st.session_state.delta_is_error = False
-        
-        # Clear out the text inputs by resetting their tracking session keys directly
-        st.session_state.ref_in = ""
-        st.session_state.arr_in = ""
-        st.session_state.av_in = ""
-        st.session_state.proj_in = ""
-        
-        # Clear out the logs window text content
-        st.session_state.notes_log = ""
-        
-        st.rerun()
+    # Passing the safe function callback to completely wipe input text fields without raising exceptions
+    st.button("AC", use_container_width=True, type="secondary", on_click=clear_all_callback)
 
 with btn_col2:
     if st.button("CALCULATE", use_container_width=True, type="primary"):
